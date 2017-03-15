@@ -3,21 +3,23 @@
 #include <errno.h>  
 #include <string.h>  
 #include <sys/types.h>  
-#include <netinet/in.h>  
-#include <sys/socket.h>  
-#include <sys/wait.h>  
-#include <arpa/inet.h>  
-#include <unistd.h>  
+#include <netinet/in.h>	//定義數據結構  
+#include <sys/socket.h>  //提供socket函數及數據結構
+#include <sys/wait.h>  //提供進程等待
+#include <arpa/inet.h>  //提供IP地址轉換函數
+#include <unistd.h> //提供通用的文件、目录、程序及进程操作的函数 
 #define SERVPORT 3333  
 #define BACKLOG 10  
 #define MAXSIZE 1024  
 /* 
  *自定义信息 
  */  
-typedef struct MyMessage{  
+typedef struct MyMessage{  //定義結構體
     int ID;  
     char info[256];  
-}MyMessage,*pMyMessage;  
+}MyMessage,*pMyMessage;  //幫結構體命名，這是要發送的信息的結構
+
+
 int main() {  
     int sockfd, client_fd;  
     struct sockaddr_in my_addr;  
