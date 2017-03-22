@@ -1,4 +1,4 @@
-#include <opencv2/core/core.hpp>
+﻿#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>     
@@ -534,7 +534,7 @@ int main(int argc, char* argv[]){
 	}
 
 
-
+	//這邊的代碼是從Client拷貝過來的
     char sockfd, recvbytes;  
     //char buf[MAXDATASIZE]='111';  
     MyMessage recvData; 

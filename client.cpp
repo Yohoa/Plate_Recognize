@@ -28,11 +28,13 @@ int main(int argc, char* argv[]) {
     
     struct sockaddr_in serv_addr;  
   
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {  
-        perror("socket error!");  
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {  //開啟 Socket介面，通信類型AF_INET, 連接方式TCP
+        perror("socket error!");  //拋出錯誤信息
         exit(1);  
     }  
-    bzero(&serv_addr, sizeof(serv_addr));  
+    bzero(&serv_addr, sizeof(serv_addr));  //初始化變數serv_addr，它是用來存貯IP地址和通信方式的
+
+	
     serv_addr.sin_family = AF_INET;  
     serv_addr.sin_port = htons(SERVPORT);  
     serv_addr.sin_addr.s_addr = inet_addr(SERVER_IP);  

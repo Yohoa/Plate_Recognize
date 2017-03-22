@@ -15,18 +15,20 @@
  *自定义信息 
  */  
 typedef struct MyMessage{  //定義結構體
-    int ID;  
-    char info[256];  
+    int ID;  //一個整型變量
+    char info[256];  //一個字符串
 }MyMessage,*pMyMessage;  //幫結構體命名，這是要發送的信息的結構
 
 
 int main() {  
     int sockfd, client_fd;  
-    struct sockaddr_in my_addr;  
-    struct sockaddr_in remote_addr;  
+	
+    struct sockaddr_in my_addr; //我的地址
+    struct sockaddr_in remote_addr;  //cilent地址
     //创建套接字  
-    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {  
-        perror("socket create failed!");  
+	
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {  //判斷是否創建成功
+        perror("socket create failed!");  //就是創建了一個互聯網範圍的TCP套接字
         exit(1);  
     } 
 
@@ -36,11 +38,13 @@ int main() {
     my_addr.sin_family = AF_INET;  
     my_addr.sin_port = htons(SERVPORT);  
     my_addr.sin_addr.s_addr = INADDR_ANY;  
-    bzero(&(my_addr.sin_zero), 8);  
+    bzero(&(my_addr.sin_zero), 8);  //初始化
     if (bind(sockfd, (struct sockaddr*) &my_addr, sizeof(struct sockaddr))== -1) {  
         perror("bind error!");  
         exit(1);  
-    }  
+    }
+	
+	
     //监听端口  
     if (listen(sockfd, BACKLOG) == -1) {  
         perror("listen error");  
