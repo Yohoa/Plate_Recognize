@@ -10,7 +10,7 @@
 #include <unistd.h>  
 #define SERVPORT 3333  //服務器端口
 #define MAXDATASIZE 100  
-#define SERVER_IP "127.0.0.1"  //服務器IP地址
+#define SERVER_IP "182.254.151.35"  //服務器IP地址
 //#define DATA  "this is a 555client message"  
 /* 
  *自定义信息 
