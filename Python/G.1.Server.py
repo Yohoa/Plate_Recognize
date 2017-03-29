@@ -40,7 +40,7 @@ while True:
     print("來訪者的位址是: %s"% address[0])
     data = Plate_Recognition_Server.recv(1024)
     print("收到的訊息是：\n")
-    print("%s\n"% data.decode('utf-8'))
+    print("%s\n"% data.decode('gbk'))
     #print("Received <- %s")% (data)
     #if data:
     
