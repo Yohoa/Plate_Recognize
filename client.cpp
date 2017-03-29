@@ -8,23 +8,23 @@
 #include <sys/wait.h>  
 #include <arpa/inet.h>  
 #include <unistd.h>  
-#define SERVPORT 3333  
+#define SERVPORT 3333  //服務器端口
 #define MAXDATASIZE 100  
-#define SERVER_IP "127.0.0.1"  
+#define SERVER_IP "127.0.0.1"  //服務器IP地址
 //#define DATA  "this is a 555client message"  
 /* 
  *自定义信息 
  */  
-typedef struct MyMessage{  
-    int ID;  
-    char info[256];  
-}MyMessage,*pMyMessage;  
+// typedef struct MyMessage{  20170328
+    // int ID;  
+    // char info[256];  
+// }MyMessage,*pMyMessage;  
 int main(int argc, char* argv[]) {  
    
-    char hello[]="Hello! Long time no see.\n";
+    char hello[]="蓝牌:K62933";//一個14位的數組
     char sockfd, recvbytes;  
-    //char buf[MAXDATASIZE]='111';  
-    MyMessage recvData; 
+    //char buf[MAXDATASIZE]='111';  //?????
+    // MyMessage recvData; 
     
     struct sockaddr_in serv_addr;  
   
@@ -45,13 +45,13 @@ int main(int argc, char* argv[]) {
     }  
     //write(sockfd, buf, sizeof(DATA)); 
     write(sockfd, hello,strlen(hello));  
-    memset((void *)&recvData,0,sizeof(MyMessage));  
-    if ((recvbytes = recv(sockfd, (void *)&recvData,sizeof(MyMessage), 0)) == -1) {  
-        perror("recv error!");  
-        exit(1);  
-    }  
+    // memset((void *)&recvData,0,sizeof(MyMessage));  
+    // if ((recvbytes = recv(sockfd, (void *)&recvData,sizeof(MyMessage), 0)) == -1) {  
+        // perror("recv error!");  
+        // exit(1);  
+    // }  
     //buf[recvbytes] = '\0';  
-    printf("Received:ID=%d,Info= %s",recvData.ID,recvData.info);  
+    // printf("Received:ID=%d,Info= %s",recvData.ID,recvData.info);  
     close(sockfd);  
     return 0;  
 }  
