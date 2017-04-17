@@ -46,12 +46,17 @@ while True:
     print("收到的訊息是：\n")
     print("%s\n"% data)
 	
-    data_json = {
-        'Time':strftime("%Y-%m-%d %H:%M:%S",gmtime()),
-        'Plate':data
-        }
-    with open('data.json', 'w') as outfile:
-	    json.dump(data_json, outfile)
+    data_json = data
+#   with open('data.json', 'w') as outfile:
+#	json.dump(data_json, outfile)
+    with open('data.json') as json_file:
+        json_decoded = json.load(json_file)
+        
+    json_decoded[strftime("%Y-%m-%d %H:%M:%S",gmtime())] = data_json
+    
+    with open('data.json', 'w') as json_file:
+        json.dump(json_decoded, json_file)
+
 
     #print("Received <- %s")% (data)
     #if data:
