@@ -3,12 +3,15 @@
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
-# 導入socket lib
+# 導入socket lib, json lib
 import socket
+
+import json
+from time import gmtime, strftime
 
 
 #-----------------------------------------------------------------------------
-# 一個奇怪的函數
+# 一個奇怪的函數，編碼轉換
 #-----------------------------------------------------------------------------
 def process_data(d):
     # 傳遞內容
@@ -38,9 +41,18 @@ while True:
     # Accept connection and data from cilent.
     Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
     print("來訪者的位址是: %s"% address[0])
-    data = Plate_Recognition_Server.recv(1024)
+    raw_data = Plate_Recognition_Server.recv(1024)
+    data=raw_data.decode('utf-8')
     print("收到的訊息是：\n")
-    print("%s\n"% data.decode('gbk'))
+    print("%s\n"% data)
+	
+    data_json = {
+        'Time':strftime("%Y-%m-%d %H:%M:%S",gmtime()),
+        'Plate':data
+        }
+    with open('data.json', 'w') as outfile:
+	    json.dump(data_json, outfile)
+
     #print("Received <- %s")% (data)
     #if data:
     
