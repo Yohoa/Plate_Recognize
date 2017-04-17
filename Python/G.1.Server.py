@@ -42,7 +42,7 @@ while True:
     Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
     print("來訪者的位址是: %s"% address[0])
     raw_data = Plate_Recognition_Server.recv(1024)
-    data=raw_data.decode('utf-8')
+    data=raw_data.decode('gbk')
     print("收到的訊息是：\n")
     print("%s\n"% data)
 	
