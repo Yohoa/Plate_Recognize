@@ -9,6 +9,7 @@ import socket
 import json
 from time import gmtime, strftime
 
+import requests
 
 #-----------------------------------------------------------------------------
 # 一個奇怪的函數，編碼轉換
@@ -28,6 +29,10 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # 允許所有對3333的訪問接入
 host = '0.0.0.0'
 port = 3333
+
+IIS_host = '182.254.151.35'
+IIS_port = 3333
+IIS = 'http://"+IIS_host+':'+IIS_port
 
 # 申請端口。如果端口已被佔用，則會拋出異常……
 sock.bind((host,port))
@@ -57,7 +62,7 @@ while True:
     with open('data.json', 'w') as json_file:
         json.dump(json_decoded, json_file)
 
-
+	r = requests.post(IIS, data=data)
     #print("Received <- %s")% (data)
     #if data:
     
