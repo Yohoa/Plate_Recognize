@@ -11,6 +11,8 @@ from time import gmtime, strftime
 
 import requests
 
+
+import re
 #-----------------------------------------------------------------------------
 # 一個奇怪的函數，編碼轉換
 #-----------------------------------------------------------------------------
@@ -23,17 +25,24 @@ def process_data(d):
 #-----------------------------------------------------------------------------
 # 主程序
 #-----------------------------------------------------------------------------
-    
+
+
+
+#-----------------------------------------------------------------------------
+# 正則表達式
+#
+m1Regex = re.compile(r'[0123456789.]+ [0123456789:]+ ([EW0123456789.]+) ([NS0123456789.]+)')
+
 # 創建socket，決定Client IP及Server Listening 端口
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # 允許所有對3333的訪問接入
 host = '0.0.0.0'
 port = 3333
 
-IIS_host = '182.254.151.35'
+IIS_host = 'http://survfu.cn/temp/in.php'
 IIS_port = 3333
-IIS = 'http://"+IIS_host+':'+IIS_port
-
+#IIS = 'http://'+IIS_host+':'+str(IIS_port)
+IIS = IIS_host
 # 申請端口。如果端口已被佔用，則會拋出異常……
 sock.bind((host,port))
 
@@ -43,35 +52,58 @@ sock.listen(1)
 
 # 服務器等待連接
 while True:
-    # Accept connection and data from cilent.
+    # Accept connection and data from cilent. M1
+    Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
+    print("來訪者的位址是: %s"% address[0])
+    raw_data = Plate_Recognition_Server.recv(1024)
+    data=raw_data.decode('utf-8')
+    print("收到的訊息是:\n**********BEGIN**********\n")
+    print("%s\n***********END***********"% data)
+    m1r = m1Regex.match(data)
+    Long = m1r.group(1) #經度
+    Lat = m1r.group(2) #緯度
+    
+    Plate_Recognition_Server.close()
+    
+    # Accept connection and data from cilent. M2
+    Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
+    print("來訪者的位址是: %s"% address[0])
+    raw_data = Plate_Recognition_Server.recv(1024)
+    data=raw_data.decode('utf-8')
+    print("收到的訊息是:\n**********BEGIN**********\n")
+    print("%s\n***********END***********"% data)
+
+
+    Plate_Recognition_Server.close()
+    
+    # Accept connection and data from cilent. M3
+    Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
+    print("來訪者的位址是: %s"% address[0])
+    raw_data = Plate_Recognition_Server.recv(1024)
+    data=raw_data.decode('utf-8')
+    print("收到的訊息是:\n**********BEGIN**********\n")
+    print("%s\n***********END***********"% data)
+
+
+    Plate_Recognition_Server.close()
+
+    
+    # Accept connection and data from cilent. M4
     Plate_Recognition_Server, address = sock.accept()  # 注意，這裡Plate_Recognition_Server是一個類
     print("來訪者的位址是: %s"% address[0])
     raw_data = Plate_Recognition_Server.recv(1024)
     data=raw_data.decode('gbk')
-    print("收到的訊息是：\n")
-    print("%s\n"% data)
-	
-    data_json = data
-#   with open('data.json', 'w') as outfile:
-#	json.dump(data_json, outfile)
-    with open('data.json') as json_file:
-        json_decoded = json.load(json_file)
-        
-    json_decoded[strftime("%Y-%m-%d %H:%M:%S",gmtime())] = data_json
+    print("收到的訊息是:\n**********BEGIN**********\n")
+    print("%s\n***********END***********"% data)
     
-    with open('data.json', 'w') as json_file:
-        json.dump(json_decoded, json_file)
+#-----------------------------------------------------------------------------
+# FOR TEST
+    data='苏000002'
+#-----------------------------------------------------------------------------
 
-	r = requests.post(IIS, data=data)
-    #print("Received <- %s")% (data)
-    #if data:
-    
-        # # 收到數據，再把它們送回去……
-        # send = process_data(data)
-    #print("請您輸入訊息\n")
-    #send = input()
-    #print("Sent ->: %s"% send)
-    #Plate_Recognition_Server.send(send.encode())
-    
-    # 關閉連接
     Plate_Recognition_Server.close()
+    # print("Long=%s, Lati=%s"%(Long,Lat))
+    data_post='a='+data+'&b='+Long+'&c='+Lat
+    print(data_post+'\n')
+    # "a=%Plate&b=%Longitude&c=%Latitude"
+    r = requests.post(IIS, data=data_post.encode())
